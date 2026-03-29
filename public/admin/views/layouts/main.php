@@ -552,7 +552,7 @@ $currentUser = $currentUser ?? null;
             <div class="bo-nav-label">Navigation</div>
             <ul class="bo-nav">
                 <li>
-                    <a href="/admin/" class="active">
+                    <a href="/admin/">
                         <span class="ni"><i class="bi bi-house"></i></span>
                         Tableau de bord
                     </a>
@@ -640,12 +640,25 @@ $currentUser = $currentUser ?? null;
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     // Marquer le lien actif selon l'URL courante
-    document.querySelectorAll('.bo-nav li a').forEach(link => {
-        if (link.getAttribute('href') === window.location.pathname) {
-            document.querySelectorAll('.bo-nav li a').forEach(a => a.classList.remove('active'));
-            link.classList.add('active');
-        }
-    });
+    (function() {
+        const path = window.location.pathname.replace(/\/index\.php$/, '');
+        const current = path.replace(/\/$/, '');
+
+        document.querySelectorAll('.bo-nav li a').forEach(link => {
+            const rawHref = link.getAttribute('href') || '';
+            const href = rawHref.replace(/\/$/, '');
+
+            if (!href) return;
+
+            const isExact = href === current;
+            const isSection = href !== '/admin' && current.startsWith(href + '/');
+
+            if (isExact || isSection) {
+                document.querySelectorAll('.bo-nav li a').forEach(a => a.classList.remove('active'));
+                link.classList.add('active');
+            }
+        });
+    })();
 </script>
 </body>
 </html>
