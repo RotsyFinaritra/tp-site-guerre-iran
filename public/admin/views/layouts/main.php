@@ -597,8 +597,6 @@ $currentUser = $currentUser ?? null;
          MAIN
     ══════════════════════════════════════ -->
     <main class="bo-main">
-
-        <!-- Topbar -->
         <div class="bo-topbar">
             <nav class="bo-breadcrumb">
                 <span>Iran Correspondent</span>

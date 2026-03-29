@@ -10,5 +10,5 @@ RewriteRule ^articles/edit/?$ index.php?r=articles_edit [QSA,L]
 RewriteRule ^articles/delete/?$ index.php?r=articles_delete [QSA,L]
 RewriteRule ^articles/store/?$ index.php?r=articles_store [QSA,L]
 RewriteRule ^articles/update/?$ index.php?r=articles_update [QSA,L]
-RewriteRule ^categories/?$ index.php?r=categories [QSA,L]
+RewriteRule ^categories/?$ categories/index.php [QSA,L]
 
