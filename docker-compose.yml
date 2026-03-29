@@ -1,0 +1,22 @@
+services:
+  web:
+    build:
+      context: ./docker
+      dockerfile: php/Dockerfile
+    container_name: php-app-guerre-iran
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-db-guerre-iran
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: iran_news
+    ports:
+      - "3306:3306"

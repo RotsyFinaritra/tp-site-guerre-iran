@@ -1,0 +1,18 @@
+Objectifs	:	
+Crée un site web et un backoffice 
+Travail	à	faire	:	
+1. Créer un site d’informations sur la guerre en Iran 
+2. Créer la base de données 
+3. Créer le site FrontOffice pour afficher les contenus 
+4. Créer le site backoffice pour gérer les contenus 
+5. Optimisation référencement 
+Points	à	vérifier	:	
+1- URL normalisé (rewriting) 
+2- Structure des données utilisant h1, h2, ..., h6 
+3- Utilisation des titres pour la page 
+4- Utilisation de balise méta 
+5- Alt pour les images 
+6- Test sur Ligthouse local (mobile et ordinateur) 
+
+
+On va utiliser php simple + apache, mysql 8.0, on va utiliser docker pour le projet.
