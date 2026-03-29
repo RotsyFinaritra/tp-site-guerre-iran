@@ -4,6 +4,60 @@ require_once __DIR__ . '/../core/Model.php';
 
 class Article extends Model
 {
+	private static function buildAdminWhere(array $filters, array &$params): string
+	{
+		$where = ['a.deleted_at IS NULL'];
+		$params = [];
+
+		if (!empty($filters['status']) && in_array($filters['status'], ['draft', 'published'], true)) {
+			$where[] = 'a.status = :status';
+			$params['status'] = $filters['status'];
+		}
+
+		if (!empty($filters['category_id']) && is_numeric($filters['category_id'])) {
+			$where[] = 'a.category_id = :category_id';
+			$params['category_id'] = (int) $filters['category_id'];
+		}
+
+		if (!empty($filters['from'])) {
+			$where[] = 'a.created_at >= :from_dt';
+			$params['from_dt'] = $filters['from'] . ' 00:00:00';
+		}
+		if (!empty($filters['to'])) {
+			$where[] = 'a.created_at <= :to_dt';
+			$params['to_dt'] = $filters['to'] . ' 23:59:59';
+		}
+
+		return 'WHERE ' . implode(' AND ', $where);
+	}
+
+	public static function countForAdmin(array $filters = []): int
+	{
+		$params = [];
+		$whereSql = self::buildAdminWhere($filters, $params);
+		$row = self::fetchOne('SELECT COUNT(*) AS cnt FROM articles a ' . $whereSql, $params);
+		return (int) ($row['cnt'] ?? 0);
+	}
+
+	public static function listForAdmin(array $filters = [], int $limit = 10, int $offset = 0): array
+	{
+		$limit = max(1, min(100, $limit));
+		$offset = max(0, $offset);
+
+		$params = [];
+		$whereSql = self::buildAdminWhere($filters, $params);
+
+		$sql = "SELECT a.id, a.category_id, a.title, a.slug, a.status, a.created_at, a.updated_at, a.published_at,
+					c.name AS category_name
+				FROM articles a
+				INNER JOIN categories c ON c.id = a.category_id
+				" . $whereSql . "
+				ORDER BY a.created_at DESC
+				LIMIT " . (int) $limit . " OFFSET " . (int) $offset;
+
+		return self::fetchAll($sql, $params);
+	}
+
 	public static function findById(int $id, bool $includeDeleted = false): ?array
 	{
 		$sql = 'SELECT * FROM articles WHERE id = :id';

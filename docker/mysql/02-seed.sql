@@ -2,7 +2,7 @@
 
 INSERT INTO users (username, password_hash)
 VALUES
-  ('admin1', '$2y$10$W68BCje67nLG9EqCf8tNRuKRgU9N4EuJZFKv2aXlYPuvA00wmj0ay'),
+  ('admin1', '$2y$10$W68BCje67nLG9EqCf8tNRuKRgU9N4EuJZFKv2aXlYPuvA00wmj0ay'), -- admin123
   ('admin2', '$2y$10$f/W1UdUW4qP3ui/Bc0mak.xvW3upZJRdztPfLaEq4oDXpOjIRV0oi');
 
 INSERT INTO categories (id, name, slug)

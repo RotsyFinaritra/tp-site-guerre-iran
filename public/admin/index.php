@@ -23,6 +23,38 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 // Si déjà connecté, afficher un petit tableau de bord en utilisant le layout BO
 if (isset($_SESSION['admin']) && is_array($_SESSION['admin'])) {
 	$currentUser = $_SESSION['admin'];
+	$route = (string) ($_GET['r'] ?? 'dashboard');
+
+	require_once __DIR__ . '/controllers/ArticleController.php';
+	$controller = new ArticleController();
+
+	switch ($route) {
+		case 'articles':
+			$controller->index();
+			exit;
+		case 'articles_create':
+			$controller->create();
+			exit;
+		case 'articles_store':
+			$controller->store();
+			exit;
+		case 'articles_edit':
+			$id = (int) ($_GET['id'] ?? 0);
+			$controller->edit($id);
+			exit;
+		case 'articles_update':
+			$id = (int) ($_GET['id'] ?? 0);
+			$controller->update($id);
+			exit;
+		case 'articles_delete':
+			$id = (int) ($_GET['id'] ?? 0);
+			$controller->delete($id);
+			exit;
+		default:
+			// dashboard
+			break;
+	}
+
 	$pageTitle   = 'Backoffice – Tableau de bord';
 	$pageHeading = 'Tableau de bord – Iran Correspondent';
 
