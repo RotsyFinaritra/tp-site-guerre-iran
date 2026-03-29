@@ -26,22 +26,16 @@ $currentUser = $currentUser ?? null;
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
 
     <style>
-        /* ══════════════════════════════════════
-           TOKENS
-        ══════════════════════════════════════ */
         :root {
-            --navy:       #0a1628;
-            --navy-mid:   #0f2044;
-            --navy-soft:  #162952;
-            --navy-card:  #111d3a;
-            --white:      #ffffff;
-            --off-white:  #e8edf5;
-            --silver:     #c4cfe3;
-            --muted:      #8a9bb8;
-            --border:     rgba(255,255,255,.09);
-            --border-md:  rgba(255,255,255,.14);
-            --sidebar-w:  260px;
-            --tr:         .18s cubic-bezier(.4,0,.2,1);
+            --sidebar-w: 260px;
+            --tr: .18s cubic-bezier(.4,0,.2,1);
+            --border: rgba(15,32,68,.2);
+            --border-md: rgba(15,32,68,.35);
+            --white: #ffffff;
+            --off-white: #f9fafb;
+            --muted: #9ca3af;
+            --navy: #0b1120;
+            --navy-soft: #111827;
         }
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -552,19 +546,19 @@ $currentUser = $currentUser ?? null;
             <div class="bo-nav-label">Navigation</div>
             <ul class="bo-nav">
                 <li>
-                    <a href="/admin/">
+                        <a href="/admin/" data-route="dashboard">
                         <span class="ni"><i class="bi bi-house"></i></span>
                         Tableau de bord
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/articles">
+                        <a href="/admin/?r=articles" data-route="articles">
                         <span class="ni"><i class="bi bi-file-earmark-text"></i></span>
                         Articles
                     </a>
                 </li>
                 <li>
-                    <a href="/admin/categories">
+                        <a href="/admin/?r=categories" data-route="categories">
                         <span class="ni"><i class="bi bi-tag"></i></span>
                         Catégories
                     </a>
@@ -637,22 +631,13 @@ $currentUser = $currentUser ?? null;
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Marquer le lien actif selon l'URL courante
-    (function() {
-        const path = window.location.pathname.replace(/\/index\.php$/, '');
-        const current = path.replace(/\/$/, '');
-
-        document.querySelectorAll('.bo-nav li a').forEach(link => {
-            const rawHref = link.getAttribute('href') || '';
-            const href = rawHref.replace(/\/$/, '');
-
-            if (!href) return;
-
-            const isExact = href === current;
-            const isSection = href !== '/admin' && current.startsWith(href + '/');
-
-            if (isExact || isSection) {
-                document.querySelectorAll('.bo-nav li a').forEach(a => a.classList.remove('active'));
+    // Mise en surbrillance du lien actif dans la sidebar en fonction du paramètre ?r=
+    (function () {
+        const url = new URL(window.location.href);
+        const route = url.searchParams.get('r') || 'dashboard';
+        const links = document.querySelectorAll('.bo-nav a[data-route]');
+        links.forEach(link => {
+            if (link.dataset.route === route) {
                 link.classList.add('active');
             }
         });
