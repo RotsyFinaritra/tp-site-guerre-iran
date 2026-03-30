@@ -108,6 +108,33 @@ $contentHtml = (string) ($article['content_html'] ?? '');
 			line-height: 1.85;
 			font-size: 16px;
 		}
+		.fi-article-content h1,
+		.fi-article-content h2 {
+			font-family: 'Playfair Display', serif;
+			font-weight: 800;
+			line-height: 1.2;
+			margin: 26px 0 14px;
+			color: #1A1209;
+		}
+		.fi-article-content h1 { font-size: 30px; }
+		.fi-article-content h2 { font-size: 24px; }
+		.fi-article-content h3,
+		.fi-article-content h4,
+		.fi-article-content h5,
+		.fi-article-content h6 {
+			font-family: 'Playfair Display', serif;
+			font-weight: 700;
+			font-size: 18px;
+			margin: 22px 0 10px;
+			color: #1A1209;
+		}
+		.fi-article-content p {
+			margin: 0 0 14px;
+		}
+		.fi-article-content ul,
+		.fi-article-content ol {
+			margin: 0 0 16px 22px;
+		}
 		.fi-article-content img {
 			max-width: 100%;
 			height: auto;
