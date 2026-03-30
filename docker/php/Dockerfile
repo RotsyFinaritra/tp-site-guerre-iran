@@ -1,7 +1,17 @@
 FROM php:8.2-apache
 
 # Installer extensions PHP nécessaires
-RUN docker-php-ext-install pdo pdo_mysql
+# - pdo/pdo_mysql: accès DB
+# - gd: compression/redimensionnement images (TinyMCE upload)
+RUN apt-get update \
+	&& apt-get install -y --no-install-recommends \
+		libfreetype6-dev \
+		libjpeg62-turbo-dev \
+		libpng-dev \
+		libwebp-dev \
+	&& docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+	&& docker-php-ext-install -j$(nproc) pdo pdo_mysql gd \
+	&& rm -rf /var/lib/apt/lists/*
 
 # Activer mod_rewrite (IMPORTANT pour SEO)
 RUN a2enmod rewrite
