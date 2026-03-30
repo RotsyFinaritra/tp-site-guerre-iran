@@ -253,7 +253,14 @@ function frontiran_articles_data_from_rows(array $rows): array
     return [$hero, $grid3, $horizontal, $breves, $grid2];
 }
 
-function frontiran_render_image(string $src, string $alt, string $height = '340px', string $label = ''): string
+function frontiran_render_image(
+    string $src,
+    string $alt,
+    string $height = '340px',
+    string $label = '',
+    string $loading = 'lazy',
+    ?string $fetchPriority = null
+): string
 {
     $alt_e = htmlspecialchars($alt, ENT_QUOTES, 'UTF-8');
     $label_e = htmlspecialchars($label ?: $alt, ENT_QUOTES, 'UTF-8');
@@ -265,7 +272,11 @@ function frontiran_render_image(string $src, string $alt, string $height = '340p
     if ($diskPath && is_file($diskPath)) {
         $webSrc = '/' . ltrim($src, '/');
         $src_e = htmlspecialchars($webSrc, ENT_QUOTES, 'UTF-8');
-        return "<img src=\"{$src_e}\" alt=\"{$alt_e}\" style=\"width:100%;height:{$height};object-fit:cover;display:block;\">";
+
+        $loading = in_array($loading, ['lazy', 'eager', 'auto'], true) ? $loading : 'lazy';
+        $fetchAttr = $fetchPriority ? ' fetchpriority="' . htmlspecialchars($fetchPriority, ENT_QUOTES, 'UTF-8') . '"' : '';
+
+        return "<img src=\"{$src_e}\" alt=\"{$alt_e}\" loading=\"{$loading}\" decoding=\"async\"{$fetchAttr} style=\"width:100%;height:{$height};object-fit:cover;display:block;\">";
     }
 
     return <<<HTML
@@ -297,7 +308,7 @@ function frontiran_render_section_label(string $label): string
 
 function frontiran_render_hero(array $a): string
 {
-    $img = frontiran_render_image((string)$a['image'], (string)$a['alt'], '340px', (string)$a['tag']);
+    $img = frontiran_render_image((string)$a['image'], (string)$a['alt'], '340px', (string)$a['tag'], 'eager', 'high');
     $tag = frontiran_render_tag((string)$a['tag'], (bool)($a['urgent'] ?? false));
     $meta = frontiran_render_meta((string)$a['auteur'], (string)$a['temps'], (string)($a['role'] ?? ''));
     $href = htmlspecialchars((string)$a['href'], ENT_QUOTES, 'UTF-8');

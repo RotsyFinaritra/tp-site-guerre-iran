@@ -24,7 +24,13 @@ if (!function_exists('renderStyles')) {
     function renderStyles(): string
     {
         // Le document root Apache est supposé pointer sur /public
-        return '<link rel="stylesheet" href="/assets/css/navbar.css">';
+        $root = realpath(__DIR__ . '/../../../');
+        $minCssFs = $root ? ($root . '/public/assets/css/navbar.min.css') : null;
+        $href = (is_string($minCssFs) && is_file($minCssFs))
+            ? '/assets/css/navbar.min.css'
+            : '/assets/css/navbar.css';
+
+        return '<link rel="stylesheet" href="' . $href . '">';
     }
 }
 

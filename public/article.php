@@ -53,6 +53,42 @@ if ($heroPath !== '' && $heroPath[0] !== '/') {
 // content_html est produit par l'admin (TinyMCE). On l'affiche tel quel.
 $contentHtml = (string) ($article['content_html'] ?? '');
 
+function frontiran_add_lazy_loading_to_html(string $html): string
+{
+	if ($html === '' || stripos($html, '<img') === false) {
+		return $html;
+	}
+
+	if (!class_exists('DOMDocument')) {
+		return $html;
+	}
+
+	$dom = new DOMDocument();
+	$prev = libxml_use_internal_errors(true);
+	try {
+		// Add an XML header to force UTF-8.
+		$dom->loadHTML('<?xml encoding="utf-8" ?>' . $html, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD);
+		foreach ($dom->getElementsByTagName('img') as $img) {
+			/** @var DOMElement $img */
+			if (!$img->hasAttribute('loading')) {
+				$img->setAttribute('loading', 'lazy');
+			}
+			if (!$img->hasAttribute('decoding')) {
+				$img->setAttribute('decoding', 'async');
+			}
+		}
+		$out = (string) $dom->saveHTML();
+		return $out === '' ? $html : $out;
+	} catch (Throwable $e) {
+		return $html;
+	} finally {
+		libxml_clear_errors();
+		libxml_use_internal_errors($prev);
+	}
+}
+
+$contentHtml = frontiran_add_lazy_loading_to_html($contentHtml);
+
 ?><!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -180,7 +216,7 @@ $contentHtml = (string) ($article['content_html'] ?? '');
 
 		<?php if ($heroPath !== ''): ?>
 			<div class="fi-article-hero">
-				<img src="<?= htmlspecialchars($heroPath, ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($heroAlt, ENT_QUOTES, 'UTF-8') ?>">
+				<img src="<?= htmlspecialchars($heroPath, ENT_QUOTES, 'UTF-8') ?>" alt="<?= htmlspecialchars($heroAlt, ENT_QUOTES, 'UTF-8') ?>" loading="eager" decoding="async" fetchpriority="high">
 			</div>
 		<?php endif; ?>
 

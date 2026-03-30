@@ -85,7 +85,13 @@ $action = $isEdit
 		<a href="/admin/articles" class="btn btn-outline-secondary">Annuler</a>
 	</div>
 </form>
-<script src="/admin/assets/js/tinymce-article.js"></script>
+<?php
+	$tinymceArticleSrc = '/admin/assets/js/tinymce-article.js';
+	if (is_file(__DIR__ . '/../../assets/js/tinymce-article.min.js')) {
+		$tinymceArticleSrc = '/admin/assets/js/tinymce-article.min.js';
+	}
+?>
+<script src="<?= htmlspecialchars($tinymceArticleSrc, ENT_QUOTES, 'UTF-8') ?>"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
 		window.initArticleEditor?.('#content_html');

@@ -1,0 +1,15 @@
+{
+  "name": "tp-site-guerre-iran",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Minification helpers for assets (CSS/JS) for the PHP project.",
+  "scripts": {
+    "minify:css": "cleancss -o public/assets/css/navbar.min.css public/assets/css/navbar.css",
+    "minify:js": "terser public/admin/assets/js/tinymce-article.js -c -m -o public/admin/assets/js/tinymce-article.min.js --comments false",
+    "minify": "npm run minify:css && npm run minify:js"
+  },
+  "devDependencies": {
+    "clean-css-cli": "^5.6.3",
+    "terser": "^5.31.6"
+  }
+}
