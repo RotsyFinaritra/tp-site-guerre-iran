@@ -20,7 +20,7 @@ $action = $isEdit
 	</div>
 <?php endif; ?>
 
-<form method="post" action="<?= htmlspecialchars($action, ENT_QUOTES, 'UTF-8') ?>" class="vstack gap-3">
+<form method="post" action="<?= htmlspecialchars($action, ENT_QUOTES, 'UTF-8') ?>" class="vstack gap-3" enctype="multipart/form-data">
 	<div>
 		<label for="category_id" class="form-label">Catégorie</label>
 		<select class="form-select" name="category_id" id="category_id" required>
@@ -55,6 +55,22 @@ $action = $isEdit
 	</div>
 
 	<div>
+		<label for="hero_image_file" class="form-label">Image hero</label>
+		<input class="form-control" type="file" name="hero_image_file" id="hero_image_file" accept="image/jpeg,image/png,image/webp" <?= empty($article['hero_image_path']) ? 'required' : '' ?>>
+		<?php if (!empty($article['hero_image_path'])): ?>
+			<div class="form-text">Image actuelle: <code><?= htmlspecialchars((string)$article['hero_image_path'], ENT_QUOTES, 'UTF-8') ?></code></div>
+		<?php else: ?>
+			<div class="form-text">Requis. Formats acceptés: JPG, PNG, WebP.</div>
+		<?php endif; ?>
+	</div>
+
+	<div>
+		<label for="hero_image_alt" class="form-label">Texte alternatif (alt)</label>
+		<input class="form-control" type="text" name="hero_image_alt" id="hero_image_alt" value="<?= htmlspecialchars((string)($article['hero_image_alt'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
+		<div class="form-text">Optionnel. Si vide, le front office utilisera le titre comme alt.</div>
+	</div>
+
+	<div>
 		<label for="status" class="form-label">Statut</label>
 		<select class="form-select" name="status" id="status" required>
 			<option value="draft" <?= (($article['status'] ?? '') === 'draft') ? 'selected' : '' ?>>Brouillon</option>
@@ -69,36 +85,9 @@ $action = $isEdit
 		<a href="/admin/articles" class="btn btn-outline-secondary">Annuler</a>
 	</div>
 </form>
+<script src="/admin/assets/js/tinymce-article.js"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
-		const textarea = document.getElementById('content_html');
-		if (!textarea || !window.tinymce) return;
-
-		tinymce.init({
-			license_key: 'gpl',
-			selector: '#content_html',
-			height: 450,
-			base_url: '/assets/js/tinymce',
-			suffix: '.min',
-			menubar: false,
-			plugins: 'lists link image table code autoresize',
-			toolbar: 'undo redo | blocks | bold italic | bullist numlist | link image table | code',
-			branding: false,
-			paste_data_images: false,
-			image_uploadtab: true,
-			automatic_uploads: true,
-			images_upload_url: '/admin/upload-image.php'
-		});
-
-		const form = textarea.closest('form');
-		form?.addEventListener('submit', (e) => {
-			tinymce.triggerSave(); // copie TinyMCE -> textarea
-
-			if (textarea.value.trim() === '') {
-				e.preventDefault();
-				tinymce.get('content_html')?.focus(); // focus l’éditeur (pas le textarea caché)
-				alert('Le contenu est requis.');
-			}
-		});
+		window.initArticleEditor?.('#content_html');
 	});
 </script>
