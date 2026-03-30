@@ -4,6 +4,30 @@ require_once __DIR__ . '/../core/Model.php';
 
 class Article extends Model
 {
+	public static function listPublishedWithCategory(int $limit = 10, int $offset = 0, ?int $categoryId = null): array
+	{
+		$limit = max(1, min(100, $limit));
+		$offset = max(0, $offset);
+
+		$sql = "SELECT a.id, a.category_id, a.title, a.slug, a.excerpt, a.content_html, a.hero_image_path, a.hero_image_alt,
+				   a.published_at,
+				   c.name AS category_name, c.slug AS category_slug
+			FROM articles a
+			INNER JOIN categories c ON c.id = a.category_id
+			WHERE a.status = 'published'
+			  AND a.deleted_at IS NULL
+			  AND a.published_at IS NOT NULL";
+		$params = [];
+
+		if ($categoryId !== null) {
+			$sql .= ' AND a.category_id = :category_id';
+			$params['category_id'] = $categoryId;
+		}
+
+		$sql .= ' ORDER BY a.published_at DESC LIMIT ' . (int) $limit . ' OFFSET ' . (int) $offset;
+		return self::fetchAll($sql, $params);
+	}
+
 	private static function buildAdminWhere(array $filters, array &$params): string
 	{
 		$where = ['a.deleted_at IS NULL'];
