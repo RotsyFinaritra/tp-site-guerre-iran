@@ -6,10 +6,10 @@
 
 // ─── Dépendances (models) ────────────────────────────────────────────────────
 // Le composant peut fonctionner sans DB (fallback mock).
-$__root = realpath(__DIR__ . '/../../..'); // .../public
-if ($__root) {
-    $categoryModelPath = $__root . '/../app/models/Category.php';
-    $articleModelPath = $__root . '/../app/models/Article.php';
+$__publicRoot = realpath(__DIR__ . '/../..'); // .../public
+if ($__publicRoot) {
+    $categoryModelPath = $__publicRoot . '/../app/models/Category.php';
+    $articleModelPath = $__publicRoot . '/../app/models/Article.php';
     if (!class_exists('Category') && is_file($categoryModelPath)) {
         require_once $categoryModelPath;
     }
@@ -259,7 +259,7 @@ function frontiran_render_image(string $src, string $alt, string $height = '340p
     $label_e = htmlspecialchars($label ?: $alt, ENT_QUOTES, 'UTF-8');
 
     // Vérifie l'existence du fichier sur le disque (chemin relatif à /public)
-    $publicRoot = realpath(__DIR__ . '/../../..'); // .../public
+    $publicRoot = realpath(__DIR__ . '/../..'); // .../public
     $diskPath = $publicRoot ? ($publicRoot . '/' . ltrim($src, '/')) : null;
 
     if ($diskPath && is_file($diskPath)) {
