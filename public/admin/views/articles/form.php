@@ -20,7 +20,7 @@ $action = $isEdit
 	</div>
 <?php endif; ?>
 
-<form method="post" action="<?= htmlspecialchars($action, ENT_QUOTES, 'UTF-8') ?>" class="vstack gap-3">
+<form method="post" action="<?= htmlspecialchars($action, ENT_QUOTES, 'UTF-8') ?>" class="vstack gap-3" enctype="multipart/form-data">
 	<div>
 		<label for="category_id" class="form-label">Catégorie</label>
 		<select class="form-select" name="category_id" id="category_id" required>
@@ -52,6 +52,22 @@ $action = $isEdit
 	<div>
 		<label for="content_html" class="form-label">Contenu (HTML)</label>
 		<textarea class="form-control" name="content_html" id="content_html" rows="10"><?= htmlspecialchars((string)($article['content_html'] ?? ''), ENT_QUOTES, 'UTF-8') ?></textarea>
+	</div>
+
+	<div>
+		<label for="hero_image_file" class="form-label">Image hero</label>
+		<input class="form-control" type="file" name="hero_image_file" id="hero_image_file" accept="image/jpeg,image/png,image/webp" <?= empty($article['hero_image_path']) ? 'required' : '' ?>>
+		<?php if (!empty($article['hero_image_path'])): ?>
+			<div class="form-text">Image actuelle: <code><?= htmlspecialchars((string)$article['hero_image_path'], ENT_QUOTES, 'UTF-8') ?></code></div>
+		<?php else: ?>
+			<div class="form-text">Requis. Formats acceptés: JPG, PNG, WebP.</div>
+		<?php endif; ?>
+	</div>
+
+	<div>
+		<label for="hero_image_alt" class="form-label">Texte alternatif (alt)</label>
+		<input class="form-control" type="text" name="hero_image_alt" id="hero_image_alt" value="<?= htmlspecialchars((string)($article['hero_image_alt'] ?? ''), ENT_QUOTES, 'UTF-8') ?>">
+		<div class="form-text">Optionnel. Si vide, le front office utilisera le titre comme alt.</div>
 	</div>
 
 	<div>
