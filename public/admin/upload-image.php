@@ -45,11 +45,12 @@ if ($tmpPath === '' || !is_uploaded_file($tmpPath)) {
 }
 
 // Basic limits (adjust as needed).
-$maxBytes = 8 * 1024 * 1024; // 8 MB
+// These limits apply to the ORIGINAL uploaded file (before compression).
+$maxBytes = 2 * 1024 * 1024; // 2 MB
 $size = (int) ($upload['size'] ?? 0);
 if ($size <= 0 || $size > $maxBytes) {
 	http_response_code(413);
-	echo json_encode(['error' => 'File too large']);
+	echo json_encode(['error' => 'Image trop lourde (max 2 Mo).']);
 	exit;
 }
 
@@ -87,9 +88,14 @@ if (!is_array($imgInfo) || empty($imgInfo[0]) || empty($imgInfo[1])) {
 $srcW = (int) $imgInfo[0];
 $srcH = (int) $imgInfo[1];
 
-if ($srcW <= 0 || $srcH <= 0 || $srcW > 12000 || $srcH > 12000) {
+
+$maxDim = 6000; // px (width/height)
+$maxMegaPixels = 20; // MP
+$megaPixels = ($srcW * $srcH) / 1_000_000;
+
+if ($srcW <= 0 || $srcH <= 0 || $srcW > $maxDim || $srcH > $maxDim || $megaPixels > $maxMegaPixels) {
 	http_response_code(400);
-	echo json_encode(['error' => 'Image dimensions not allowed']);
+	echo json_encode(['error' => 'Dimensions trop grandes (max 6000px et 20MP).']);
 	exit;
 }
 
