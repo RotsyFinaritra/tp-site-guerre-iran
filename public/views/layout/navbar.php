@@ -31,7 +31,7 @@ if (!function_exists('renderStyles')) {
 // ─── Configuration ────────────────────────────────────────────────────────────
 $site_config = [
     'nom'           => 'FRONTIRAN',
-    'slogan'        => 'Correspondances de guerre · Analyses géopolitiques · Témoignages',
+	'slogan'        => 'Guerre en Iran · Analyses',
     'edition'       => 847,
     'correspondants'=> 47,
     'langues'       => ['FR', 'EN', 'AR', 'FA'],
@@ -162,29 +162,20 @@ function renderTopbar(array $config): string {
  * Génère le masthead principal
  */
 function renderMasthead(array $config): string {
-    $titre    = htmlspecialchars($config['nom']);
-    $slogan   = htmlspecialchars($config['slogan']);
-    $edition  = (int) $config['edition'];
-    $corr     = (int) $config['correspondants'];
-    $date     = htmlspecialchars(formatDate());
+    $titre  = htmlspecialchars($config['nom']);
+    $slogan = htmlspecialchars($config['slogan']);
 
     // Sépare le préfixe et la partie colorée
-    $prefix   = 'FRONT';
-    $accent   = 'IRAN';
+    $prefix = 'FRONT';
+    $accent = 'IRAN';
 
     return <<<HTML
     <div class="fi-masthead">
         <div class="fi-masthead__brand">
-            <div class="fi-masthead__label">Couverture spéciale</div>
             <div class="fi-masthead__title">
                 {$prefix}<span class="fi-masthead__accent">{$accent}</span>
             </div>
             <div class="fi-masthead__slogan">{$slogan}</div>
-        </div>
-        <div class="fi-masthead__meta">
-            <div class="fi-masthead__edition">Édition No. {$edition}</div>
-            <div>Mise à jour il y a 4 min</div>
-            <div>{$corr} correspondants actifs</div>
         </div>
     </div>
     HTML;
