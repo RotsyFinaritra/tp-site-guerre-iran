@@ -1,0 +1,14 @@
+Options +FollowSymlinks
+
+RewriteEngine On
+
+# Laisse passer les fichiers/dossiers existants
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Détail article par slug
+# Exemple: /article/iran-nouvelle-sequence-de-negociations
+RewriteRule ^article/([0-9]{8})-([_a-z0-9-]+)$ article.php?ymd=$1&slug=$2 [L,QSA,NC]
+RewriteRule ^article/([_a-z0-9-]+)$ article.php?slug=$1 [L,QSA,NC]
+
