@@ -37,9 +37,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 6px 32px;
+    padding: 2px 18px;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
+    font-size: 9px;
     letter-spacing: .04em;
     flex-wrap: wrap;
     gap: 8px;
@@ -103,7 +103,7 @@
 /* ── Masthead ── */
 .fi-masthead {
     background: var(--fi-sand);
-    padding: 20px 32px 16px;
+    padding: 4px 16px 4px;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
@@ -124,7 +124,7 @@
 
 .fi-masthead__title {
     font-family: 'Playfair Display', serif;
-    font-size: 42px;
+    font-size: 22px;
     font-weight: 900;
     color: var(--fi-ink);
     line-height: 1;
@@ -136,16 +136,16 @@
 }
 
 .fi-masthead__slogan {
-    font-size: 13px;
+    font-size: 10px;
     color: var(--fi-muted);
     font-style: italic;
-    margin-top: 6px;
+    margin-top: 2px;
 }
 
 .fi-masthead__meta {
     text-align: right;
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
+	font-size: 9px;
     color: var(--fi-muted);
     line-height: 1.8;
 }
@@ -161,18 +161,18 @@
     background: var(--fi-ink);
     display: flex;
     align-items: stretch;
-    padding: 0 32px;
+    padding: 0 24px;
     flex-wrap: wrap;
 }
 
 .fi-nav__link {
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 11.5px;
+    font-size: 10px;
     font-weight: 500;
     letter-spacing: .1em;
     color: rgba(255, 255, 255, .75);
     text-decoration: none;
-    padding: 13px 16px;
+    padding: 7px 10px;
     text-transform: uppercase;
     border-bottom: 2px solid transparent;
     transition: color .15s, border-color .15s;
@@ -258,17 +258,17 @@
     align-items: center;
     overflow: hidden;
     font-family: 'Source Serif 4', serif;
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .fi-breaking__label {
     background: var(--fi-red-dark);
     font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 500;
     letter-spacing: .15em;
     text-transform: uppercase;
-    padding: 8px 16px;
+    padding: 4px 12px;
     white-space: nowrap;
     flex-shrink: 0;
 }
@@ -281,7 +281,7 @@
 .fi-breaking__ticker {
     display: flex;
     gap: 60px;
-    padding: 8px 24px;
+	padding: 4px 14px;
     animation: fi-ticker 30s linear infinite;
     white-space: nowrap;
 }
