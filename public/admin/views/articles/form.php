@@ -1,4 +1,5 @@
 <?php
+
 /** @var array $article */
 /** @var array $categories */
 /** @var array $errors */
@@ -50,7 +51,7 @@ $action = $isEdit
 
 	<div>
 		<label for="content_html" class="form-label">Contenu (HTML)</label>
-		<textarea class="form-control" name="content_html" id="content_html" rows="10" required><?= htmlspecialchars((string)($article['content_html'] ?? ''), ENT_QUOTES, 'UTF-8') ?></textarea>
+		<textarea class="form-control" name="content_html" id="content_html" rows="10"><?= htmlspecialchars((string)($article['content_html'] ?? ''), ENT_QUOTES, 'UTF-8') ?></textarea>
 	</div>
 
 	<div>
@@ -68,3 +69,36 @@ $action = $isEdit
 		<a href="/admin/articles" class="btn btn-outline-secondary">Annuler</a>
 	</div>
 </form>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+		const textarea = document.getElementById('content_html');
+		if (!textarea || !window.tinymce) return;
+
+		tinymce.init({
+			license_key: 'gpl',
+			selector: '#content_html',
+			height: 450,
+			base_url: '/assets/js/tinymce',
+			suffix: '.min',
+			menubar: false,
+			plugins: 'lists link image table code autoresize',
+			toolbar: 'undo redo | blocks | bold italic | bullist numlist | link image table | code',
+			branding: false,
+			paste_data_images: false,
+			image_uploadtab: true,
+			automatic_uploads: true,
+			images_upload_url: '/admin/upload-image.php'
+		});
+
+		const form = textarea.closest('form');
+		form?.addEventListener('submit', (e) => {
+			tinymce.triggerSave(); // copie TinyMCE -> textarea
+
+			if (textarea.value.trim() === '') {
+				e.preventDefault();
+				tinymce.get('content_html')?.focus(); // focus l’éditeur (pas le textarea caché)
+				alert('Le contenu est requis.');
+			}
+		});
+	});
+</script>
