@@ -18,6 +18,11 @@ $currentUser = $currentUser ?? null;
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?></title>
 
+    <!-- Preconnect (perf) -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <!-- Bootstrap Icons -->
@@ -289,6 +294,7 @@ $currentUser = $currentUser ?? null;
             flex: 1;
             min-height: 100vh;
             background: #f5f6fb; /* zone principale claire */
+            color: #111827;
             display: flex;
             flex-direction: column;
         }
@@ -358,7 +364,7 @@ $currentUser = $currentUser ?? null;
             font-weight: 600;
             letter-spacing: .28em;
             text-transform: uppercase;
-            color: var(--muted);
+            color: #374151;
             margin-bottom: .4rem;
         }
 
@@ -372,7 +378,7 @@ $currentUser = $currentUser ?? null;
 
         .bo-page-sub {
             font-size: .78rem;
-            color: #6b7280;
+            color: #374151;
             margin-top: .3rem;
         }
 

@@ -13,8 +13,8 @@ RUN apt-get update \
 	&& docker-php-ext-install -j$(nproc) pdo pdo_mysql gd \
 	&& rm -rf /var/lib/apt/lists/*
 
-# Activer mod_rewrite (IMPORTANT pour SEO)
-RUN a2enmod rewrite
+# Activer modules Apache (SEO + gzip + cache)
+RUN a2enmod rewrite deflate headers expires
 
 # Copier configuration Apache
 COPY apache/vhost.conf /etc/apache2/sites-available/000-default.conf

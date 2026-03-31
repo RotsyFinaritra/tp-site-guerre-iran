@@ -76,8 +76,9 @@
 									<?= htmlspecialchars(substr((string)($art['created_at'] ?? ''), 0, 16), ENT_QUOTES, 'UTF-8') ?>
 								</td>
 								<td class="text-end">
-									<a href="/admin/?r=articles_edit&id=<?= (int) $art['id'] ?>" class="btn btn-sm btn-outline-secondary btn-xs">
-										<i class="bi bi-pencil"></i>
+									<a href="/admin/?r=articles_edit&id=<?= (int) $art['id'] ?>" class="btn btn-sm btn-outline-secondary btn-xs" aria-label="Modifier l'article" title="Modifier l'article">
+										<i class="bi bi-pencil" aria-hidden="true"></i>
+										<span class="visually-hidden">Modifier</span>
 									</a>
 								</td>
 							</tr>

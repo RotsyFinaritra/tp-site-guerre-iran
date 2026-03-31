@@ -85,7 +85,14 @@ $action = $isEdit
 		<a href="/admin/articles" class="btn btn-outline-secondary">Annuler</a>
 	</div>
 </form>
-<script src="/admin/assets/js/tinymce-article.js?v=20260331"></script>
+<?php
+	$tinymceArticleJs = '/admin/assets/js/tinymce-article.min.js';
+	$docRoot = isset($_SERVER['DOCUMENT_ROOT']) ? (string) $_SERVER['DOCUMENT_ROOT'] : '';
+	if ($docRoot === '' || !is_file(rtrim($docRoot, '/\\') . $tinymceArticleJs)) {
+		$tinymceArticleJs = '/admin/assets/js/tinymce-article.js';
+	}
+?>
+<script src="<?= htmlspecialchars($tinymceArticleJs, ENT_QUOTES, 'UTF-8') ?>?v=20260331"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
 		window.initArticleEditor?.('#content_html');

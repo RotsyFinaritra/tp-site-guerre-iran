@@ -45,12 +45,14 @@
 					<td><?= htmlspecialchars($cat['name'], ENT_QUOTES, 'UTF-8') ?></td>
 					<td><code class="small"><?= htmlspecialchars($cat['slug'], ENT_QUOTES, 'UTF-8') ?></code></td>
 					<td class="text-end">
-						<a href="/admin/?r=categories_edit&id=<?= (int) $cat['id'] ?>" class="btn btn-outline-secondary btn-xs btn-sm me-1">
-							<i class="bi bi-pencil"></i>
+						<a href="/admin/?r=categories_edit&id=<?= (int) $cat['id'] ?>" class="btn btn-outline-secondary btn-xs btn-sm me-1" aria-label="Modifier la catégorie" title="Modifier la catégorie">
+							<i class="bi bi-pencil" aria-hidden="true"></i>
+							<span class="visually-hidden">Modifier</span>
 						</a>
 						<form action="/admin/?r=categories_delete&id=<?= (int) $cat['id'] ?>" method="post" class="d-inline" onsubmit="return confirm('Supprimer cette catégorie ?');">
-							<button type="submit" class="btn btn-outline-danger btn-xs btn-sm">
-								<i class="bi bi-trash"></i>
+							<button type="submit" class="btn btn-outline-danger btn-xs btn-sm" aria-label="Supprimer la catégorie" title="Supprimer la catégorie">
+								<i class="bi bi-trash" aria-hidden="true"></i>
+								<span class="visually-hidden">Supprimer</span>
 							</button>
 						</form>
 					</td>
