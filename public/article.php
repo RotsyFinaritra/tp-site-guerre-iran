@@ -53,11 +53,36 @@ if ($heroPath !== '' && $heroPath[0] !== '/') {
 // content_html est produit par l'admin (TinyMCE). On l'affiche tel quel.
 $contentHtml = (string) ($article['content_html'] ?? '');
 
+// Meta description : extrait texte du contenu (SEO)
+$metaDescription = '';
+if ($contentHtml !== '') {
+	$text = strip_tags($contentHtml);
+	$text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+	$text = preg_replace('/\s+/u', ' ', (string) $text);
+	$text = trim((string) $text);
+	if ($text !== '') {
+		$maxLen = 160;
+		if (function_exists('mb_substr')) {
+			$metaDescription = mb_substr($text, 0, $maxLen, 'UTF-8');
+		} else {
+			$metaDescription = substr($text, 0, $maxLen);
+		}
+		$metaDescription = rtrim($metaDescription, " \t\n\r\0\x0B.,;:-") . '…';
+	}
+}
+
+if ($metaDescription === '') {
+	$metaDescription = $categoryName !== ''
+		? ($categoryName . ' — ' . $title)
+		: $title;
+}
+
 ?><!DOCTYPE html>
 <html lang="fr">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="<?= htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8') ?>">
 	<title><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></title>
 	<?= renderStyles() ?>
 	<style>
