@@ -140,6 +140,53 @@
     margin-top: 2px;
 }
 
+.fi-masthead__actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fi-masthead__actions form {
+    margin: 0;
+}
+
+.fi-masthead__admin {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: var(--fi-red);
+    border: 2px solid var(--fi-red-dark);
+    border-radius: 10px;
+    padding: 10px 16px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, transform .05s;
+}
+
+.fi-masthead__admin:hover {
+    background: var(--fi-red-dark);
+    border-color: var(--fi-ink);
+}
+
+.fi-masthead__admin:active {
+    transform: translateY(1px);
+}
+
+.fi-masthead__admin:focus-visible {
+    outline: 2px solid var(--fi-red);
+    outline-offset: 2px;
+}
+
 .fi-masthead__meta {
     text-align: right;
     font-family: 'IBM Plex Mono', monospace;
@@ -192,6 +239,7 @@
 .fi-nav__link:hover {
     border-bottom-color: rgba(255, 255, 255, .4);
 }
+
 
 .fi-nav__dot {
     width: 5px;
@@ -259,6 +307,16 @@
     font-size: 11px;
 }
 
+/* Forcer la neutralisation du style de lien (anti-bleu/soulignement) */
+.fi-breaking a,
+.fi-breaking a:visited,
+.fi-breaking a:hover,
+.fi-breaking a:active,
+.fi-breaking a:focus {
+    color: #fff !important;
+    text-decoration: none !important;
+}
+
 .fi-breaking__label {
     background: var(--fi-red-dark);
     font-family: 'IBM Plex Mono', monospace;
@@ -284,7 +342,22 @@
     white-space: nowrap;
 }
 
-.fi-breaking__ticker span::before {
+.fi-breaking__item {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Neutralise l'apparence de lien (hover/visited/focus) */
+.fi-breaking__item:visited,
+.fi-breaking__item:hover,
+.fi-breaking__item:active,
+.fi-breaking__item:focus {
+    color: inherit;
+    text-decoration: none;
+    outline: none;
+}
+
+.fi-breaking__item::before {
     content: '/ ';
     opacity: .6;
     margin-right: 4px;

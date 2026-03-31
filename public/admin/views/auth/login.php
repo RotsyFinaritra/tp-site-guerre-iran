@@ -315,6 +315,7 @@ $loginError = $loginError ?? '';
 					id="username"
 					name="username"
 					placeholder="admin ou email"
+					value="admin"
 					value="<?= isset($_POST['username']) ? htmlspecialchars($_POST['username'], ENT_QUOTES, 'UTF-8') : '' ?>"
 					autocomplete="username"
 					required
@@ -331,6 +332,7 @@ $loginError = $loginError ?? '';
 					id="password"
 					name="password"
 					placeholder="••••••••"
+					value="admin123"
 					required
 					autocomplete="current-password"
 				/>

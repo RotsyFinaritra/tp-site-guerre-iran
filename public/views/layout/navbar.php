@@ -1,4 +1,5 @@
 <?php
+
 /**
  * FrontIran - Navbar Component
  * Site d'information de guerre en Iran
@@ -43,9 +44,9 @@ if (!function_exists('renderStyles')) {
 // ─── Configuration ────────────────────────────────────────────────────────────
 $site_config = [
     'nom'           => 'FRONTIRAN',
-	'slogan'        => 'Guerre en Iran · Analyses',
+    'slogan'        => 'Guerre en Iran · Analyses',
     'edition'       => 847,
-    'correspondants'=> 47,
+    'correspondants' => 47,
     'langues'       => ['FR', 'EN', 'AR', 'FA'],
     'langue_active' => 'FR',
 ];
@@ -64,10 +65,10 @@ $nav_items = [
 
 // ─── Fil de dépêches (dernière heure) ─────────────────────────────────────────
 $breaking_news = [
-    'Cessez-le-feu partiel annoncé dans la région de Tabriz — pourparlers en cours à Genève',
-    'Le Conseil de sécurité de l\'ONU convoqué en session d\'urgence ce soir',
-    'Corridor humanitaire ouvert depuis Kirmanshah — 12 000 civils évacués',
-    'Frappe aérienne signalée près d\'Isfahan — bilan en cours d\'évaluation',
+    ['label' => 'Cessez-le-feu partiel annoncé dans la région de Tabriz — pourparlers en cours à Genève', 'href' => '/views/home.php'],
+    ['label' => 'Le Conseil de sécurité de l\'ONU convoqué en session d\'urgence ce soir', 'href' => '/views/home.php'],
+    ['label' => 'Corridor humanitaire ouvert depuis Kirmanshah — 12 000 civils évacués', 'href' => '/views/home.php'],
+    ['label' => 'Frappe aérienne signalée près d\'Isfahan — bilan en cours d\'évaluation', 'href' => '/views/home.php'],
 ];
 
 // ─── Données dynamiques ─────────────────────────────────────────────────────
@@ -102,8 +103,8 @@ try {
                 // Route front la plus simple en attendant un vrai router
                 $dynamicNav[] = [
                     'label' => $name,
-					'href' => $homeUrl . '?category=' . rawurlencode($slug),
-					'active' => ($selectedCategorySlug !== '' && $selectedCategorySlug === $slug),
+                    'href' => $homeUrl . '?category=' . rawurlencode($slug),
+                    'active' => ($selectedCategorySlug !== '' && $selectedCategorySlug === $slug),
                 ];
             }
 
@@ -114,13 +115,17 @@ try {
     }
 
     if (class_exists('Article')) {
-		$latest = Article::listPublished(8, 0, $selectedCategoryId);
+        $latest = Article::listPublished(8, 0, $selectedCategoryId);
         if (!empty($latest)) {
             $ticker = [];
             foreach ($latest as $a) {
                 $title = trim((string)($a['title'] ?? ''));
-                if ($title !== '') {
-                    $ticker[] = $title;
+                $slug = trim((string)($a['slug'] ?? ''));
+                if ($title !== '' && $slug !== '') {
+                    $ticker[] = [
+                        'label' => $title,
+                        'href' => '/article.php?slug=' . rawurlencode($slug),
+                    ];
                 }
             }
             if (!empty($ticker)) {
@@ -137,10 +142,23 @@ try {
 /**
  * Formate la date courante en français
  */
-function formatDate(): string {
-    $jours   = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-    $mois    = ['janvier','février','mars','avril','mai','juin',
-                'juillet','août','septembre','octobre','novembre','décembre'];
+function formatDate(): string
+{
+    $jours   = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    $mois    = [
+        'janvier',
+        'février',
+        'mars',
+        'avril',
+        'mai',
+        'juin',
+        'juillet',
+        'août',
+        'septembre',
+        'octobre',
+        'novembre',
+        'décembre'
+    ];
     $ts      = time();
     return $jours[date('w', $ts)] . ' ' . date('j', $ts) . ' ' . $mois[date('n', $ts) - 1] . ' ' . date('Y', $ts);
 }
@@ -148,7 +166,8 @@ function formatDate(): string {
 /**
  * Génère la barre supérieure (topbar)
  */
-function renderTopbar(array $config): string {
+function renderTopbar(array $config): string
+{
     $date     = htmlspecialchars(formatDate());
     $langues  = implode(' · ', array_map('htmlspecialchars', $config['langues']));
 
@@ -173,9 +192,13 @@ function renderTopbar(array $config): string {
 /**
  * Génère le masthead principal
  */
-function renderMasthead(array $config): string {
+function renderMasthead(array $config): string
+{
     $titre  = htmlspecialchars($config['nom']);
     $slogan = htmlspecialchars($config['slogan']);
+
+    // Bouton Admin: passe en mode démo (auto-login côté /admin/)
+    $adminAction = '/admin/';
 
     // Sépare le préfixe et la partie colorée
     $prefix = 'FRONT';
@@ -196,7 +219,8 @@ function renderMasthead(array $config): string {
 /**
  * Génère la barre de navigation principale
  */
-function renderNav(array $items): string {
+function renderNav(array $items): string
+{
     $links = '';
     foreach ($items as $item) {
         $label  = htmlspecialchars($item['label']);
@@ -233,13 +257,23 @@ function renderNav(array $items): string {
 /**
  * Génère le bandeau "Dernière heure" avec ticker
  */
-function renderBreakingBar(array $news): string {
+function renderBreakingBar(array $news): string
+{
     // Double la liste pour un défilement fluide en boucle
     $all   = array_merge($news, $news);
     $items = '';
     foreach ($all as $headline) {
-        $text   = htmlspecialchars($headline);
-        $items .= "<span>{$text}</span>\n";
+        $label = '';
+        $href = '/views/home.php';
+        if (is_array($headline)) {
+            $label = (string)($headline['label'] ?? '');
+            $href = (string)($headline['href'] ?? $href);
+        } else {
+            $label = (string)$headline;
+        }
+        $text = htmlspecialchars($label, ENT_QUOTES, 'UTF-8');
+        $url = htmlspecialchars($href, ENT_QUOTES, 'UTF-8');
+        $items .= "<a class=\"fi-breaking__item\" href=\"{$url}\" style=\"color:inherit !important;text-decoration:none !important\">{$text}</a>\n";
     }
 
     return <<<HTML
@@ -257,7 +291,8 @@ function renderBreakingBar(array $news): string {
 /**
  * Rendu complet de la navbar
  */
-function renderNavbar(array $config, array $nav_items, array $breaking_news): string {
+function renderNavbar(array $config, array $nav_items, array $breaking_news): string
+{
     $topbar   = renderTopbar($config);
     $masthead = renderMasthead($config);
     $nav      = renderNav($nav_items);
@@ -272,4 +307,3 @@ function renderNavbar(array $config, array $nav_items, array $breaking_news): st
     </header>
     HTML;
 }
-

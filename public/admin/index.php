@@ -6,6 +6,8 @@ require_once __DIR__ . '/controllers/AuthController.php';
 require_once __DIR__ . '/controllers/ArticleController.php';
 require_once __DIR__ . '/controllers/CategoryController.php';
 
+require_once __DIR__ . '/../../app/models/User.php';
+
 $authController = new AuthController();
 
 // Gestion de la déconnexion
@@ -14,6 +16,33 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 }
 
 $isLoggedIn = isset($_SESSION['admin']) && is_array($_SESSION['admin']);
+
+// Mode démo: accès direct au backoffice quand on vient de la navbar (Admin -> ?demo=1)
+// Ne s'active pas sans ce paramètre.
+$demo = isset($_GET['demo']) && (string) $_GET['demo'] === '1';
+if (!$isLoggedIn && $demo) {
+	$demoUser = null;
+	try {
+		$demoUser = User::findById(1);
+		if (!$demoUser) {
+			$demoUser = User::findByUsername('admin');
+		}
+	} catch (Throwable $e) {
+		$demoUser = null;
+	}
+
+	if (is_array($demoUser) && isset($demoUser['id'], $demoUser['username'])) {
+		$_SESSION['admin'] = [
+			'id' => (int) $demoUser['id'],
+			'username' => (string) $demoUser['username'],
+		];
+		$isLoggedIn = true;
+	} else {
+		// Fallback (si DB vide): session minimale pour accéder au BO en mode démo.
+		$_SESSION['admin'] = ['id' => 0, 'username' => 'demo'];
+		$isLoggedIn = true;
+	}
+}
 
 // Si l'utilisateur n'est pas connecté, on délègue à l'AuthController
 if (!$isLoggedIn) {
