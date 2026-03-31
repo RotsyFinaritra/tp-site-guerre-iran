@@ -403,8 +403,6 @@ function frontiran_render_article_styles(): string
 {
     return <<<CSS
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&family=IBM+Plex+Mono:wght@400;500&display=swap');
-
     :root {
         --fi-red:    #C0392B;
         --fi-ink:    #1A1209;
@@ -460,7 +458,7 @@ function frontiran_render_article_styles(): string
         font-family: 'IBM Plex Mono', monospace;
         font-size: 10px;
         letter-spacing: .1em;
-        color: rgba(26,18,9,.35);
+        color: rgba(26,18,9,.75);
         text-transform: uppercase;
     }
 
