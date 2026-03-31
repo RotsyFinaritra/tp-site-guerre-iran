@@ -7,6 +7,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="<?= htmlspecialchars($metaDescription ?? 'Administration du site Iran Correspondent.', ENT_QUOTES, 'UTF-8') ?>">
 	<title><?= htmlspecialchars($pageTitle ?? 'Admin', ENT_QUOTES, 'UTF-8') ?></title>
 	<style>
 		body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:20px;}

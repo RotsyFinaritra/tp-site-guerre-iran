@@ -4,18 +4,22 @@
  * Variables attendues :
  *   string      $pageTitle
  *   string      $pageHeading
+ *   string      $metaDescription (optionnel)
  *   string      $content      (HTML déjà généré)
  *   array|null  $currentUser  (optionnel, avec 'username')
  */
 $pageTitle   = $pageTitle   ?? 'Backoffice – Iran Correspondent';
 $pageHeading = $pageHeading ?? 'Backoffice';
 $currentUser = $currentUser ?? null;
+$metaDescription = $metaDescription
+    ?? 'Tableau de bord d’administration du site Iran Correspondent : gestion des articles, catégories et contenus.';
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="<?= htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8') ?>"/>
     <title><?= htmlspecialchars($pageTitle, ENT_QUOTES, 'UTF-8') ?></title>
 
     <!-- Preconnect (perf) -->
