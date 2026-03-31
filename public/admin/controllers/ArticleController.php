@@ -193,6 +193,23 @@ class ArticleController
 		return $val;
 	}
 
+	private function normalizeUploadsInHtml(string $html): string
+	{
+		if ($html === '') {
+			return $html;
+		}
+
+		// Ensure we persist root-relative URLs for local uploads (portable across localhost/prod).
+		// Example: src="http://localhost:8080/uploads/x.webp" => src="/uploads/x.webp"
+		$normalized = preg_replace(
+			'~(<img\\b[^>]*\\ssrc=["\'])(?:https?:)?//[^"\']+(/uploads/[^"\']+)(["\'])~i',
+			'$1$2$3',
+			$html
+		);
+
+		return is_string($normalized) ? $normalized : $html;
+	}
+
 	public function index(): void
 	{
 		$currentUser = $this->requireAuth();
@@ -272,7 +289,7 @@ class ArticleController
 		$title = $this->postString('title');
 		$slug = $this->postString('slug');
 		$excerpt = $this->postNullableString('excerpt');
-		$contentHtml = $this->postString('content_html');
+		$contentHtml = $this->normalizeUploadsInHtml($this->postString('content_html'));
 		$heroImageAlt = $this->postNullableString('hero_image_alt');
 		$status = $this->postString('status');
 
@@ -380,7 +397,7 @@ class ArticleController
 		$title = $this->postString('title');
 		$slug = $this->postString('slug');
 		$excerpt = $this->postNullableString('excerpt');
-		$contentHtml = $this->postString('content_html');
+		$contentHtml = $this->normalizeUploadsInHtml($this->postString('content_html'));
 		$heroImageAlt = $this->postNullableString('hero_image_alt');
 		$status = $this->postString('status');
 
