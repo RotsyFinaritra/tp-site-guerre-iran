@@ -8,6 +8,7 @@ $loginError = $loginError ?? '';
 <head>
 	<meta charset="UTF-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="icon" href="/favicon.ico" sizes="any"/>
 	<meta name="description" content="Connexion au backoffice Iran Correspondent."/>
 	<title>Iran Correspondent — Connexion backoffice</title>
 

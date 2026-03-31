@@ -82,6 +82,7 @@ if ($metaDescription === '') {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="/favicon.ico" sizes="any">
 	<meta name="description" content="<?= htmlspecialchars($metaDescription, ENT_QUOTES, 'UTF-8') ?>">
 	<title><?= htmlspecialchars($title, ENT_QUOTES, 'UTF-8') ?></title>
 	<?= renderStyles() ?>
@@ -117,7 +118,7 @@ if ($metaDescription === '') {
 			font-family: 'IBM Plex Mono', monospace;
 			font-size: 11px;
 			letter-spacing: .04em;
-			color: rgba(26,18,9,0.6);
+			color: rgba(26,18,9,0.78);
 		}
 		.fi-article-hero {
 			margin: 18px 0 18px;
@@ -170,7 +171,7 @@ if ($metaDescription === '') {
 		.fi-article-content figcaption {
 			font-family: 'IBM Plex Mono', monospace;
 			font-size: 11px;
-			color: rgba(26,18,9,0.6);
+			color: rgba(26,18,9,0.78);
 			margin-top: 8px;
 		}
 		.fi-article-content a { color: inherit; text-decoration: underline; }

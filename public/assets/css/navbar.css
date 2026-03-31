@@ -62,7 +62,7 @@
 }
 
 .fi-topbar__langs {
-    opacity: .5;
+    opacity: .8;
 }
 
 /* ── Badge EN DIRECT ── */
@@ -277,7 +277,7 @@
 }
 
 .fi-search__icon {
-    color: rgba(255, 255, 255, .45);
+    color: rgba(255, 255, 255, .75);
     font-size: 13px;
 }
 
@@ -293,7 +293,7 @@
 }
 
 .fi-search__input::placeholder {
-    color: rgba(255, 255, 255, .35);
+    color: rgba(255, 255, 255, .7);
 }
 
 /* ── Breaking bar ── */
@@ -359,7 +359,7 @@
 
 .fi-breaking__item::before {
     content: '/ ';
-    opacity: .6;
+    opacity: .85;
     margin-right: 4px;
 }
 

@@ -33,11 +33,29 @@ if (!function_exists('renderStyles')) {
 
         $fontsHref = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500&display=swap';
 
-        return ''
+        // Fonts en non-bloquant (réduit render-blocking/LCP)
+        $out = ''
             . '<link rel="preconnect" href="https://fonts.googleapis.com">'
             . '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
-            . '<link rel="stylesheet" href="' . $fontsHref . '">'
-            . '<link rel="stylesheet" href="' . $href . '">';
+            . '<link rel="preload" as="style" href="' . $fontsHref . '">' 
+            . '<link rel="stylesheet" href="' . $fontsHref . '" media="print" onload="this.media=\'all\'">'
+            . '<noscript><link rel="stylesheet" href="' . $fontsHref . '"></noscript>';
+
+        // Inline CSS (supprime la requête CSS bloquante du critical path)
+        $cssInline = '';
+        if ($docRoot !== '') {
+            $cssPath = rtrim($docRoot, '/\\') . $href;
+            if (is_file($cssPath) && is_readable($cssPath)) {
+                $cssInline = (string) file_get_contents($cssPath);
+            }
+        }
+
+        if ($cssInline !== '' && strlen($cssInline) < 100000) {
+            return $out . '<style>' . $cssInline . '</style>';
+        }
+
+        // Fallback si le fichier n'est pas lisible
+        return $out . '<link rel="stylesheet" href="' . $href . '">';
     }
 }
 
