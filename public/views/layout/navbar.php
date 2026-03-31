@@ -23,8 +23,20 @@ if ($__root) {
 if (!function_exists('renderStyles')) {
     function renderStyles(): string
     {
-        // Le document root Apache est supposé pointer sur /public
-        return '<link rel="stylesheet" href="/assets/css/navbar.css">';
+        $href = '/assets/css/navbar.min.css';
+
+        $docRoot = isset($_SERVER['DOCUMENT_ROOT']) ? (string) $_SERVER['DOCUMENT_ROOT'] : '';
+        if ($docRoot === '' || !is_file(rtrim($docRoot, '/\\') . $href)) {
+            $href = '/assets/css/navbar.css';
+        }
+
+        $fontsHref = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:wght@300;400;600&family=IBM+Plex+Mono:wght@400;500&display=swap';
+
+        return ''
+            . '<link rel="preconnect" href="https://fonts.googleapis.com">'
+            . '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+            . '<link rel="stylesheet" href="' . $fontsHref . '">'
+            . '<link rel="stylesheet" href="' . $href . '">';
     }
 }
 
