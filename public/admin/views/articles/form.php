@@ -85,7 +85,7 @@ $action = $isEdit
 		<a href="/admin/articles" class="btn btn-outline-secondary">Annuler</a>
 	</div>
 </form>
-<script src="/admin/assets/js/tinymce-article.js"></script>
+<script src="/admin/assets/js/tinymce-article.js?v=20260331"></script>
 <script>
 	document.addEventListener('DOMContentLoaded', () => {
 		window.initArticleEditor?.('#content_html');

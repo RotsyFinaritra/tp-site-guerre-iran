@@ -38,9 +38,10 @@
 			branding: false,
 			paste_data_images: false,
 			automatic_uploads: true,
-			// Keep URLs stable in saved HTML (avoid ../../uploads/...).
+			// Keep URLs stable in saved HTML.
+			// We store root-relative URLs like /uploads/xxx.webp (portable across localhost/prod domains).
 			relative_urls: false,
-			remove_script_host: false,
+			remove_script_host: true,
 			document_base_url: '/',
 			// Image plugin dialog options.
 			image_description: true,
